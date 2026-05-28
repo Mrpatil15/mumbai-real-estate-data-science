@@ -131,10 +131,59 @@ localities_rates = {
 # Load files
 @st.cache_resource
 def load_model():
+    # Attempt to load from pickle
     if os.path.exists(model_path):
-        with open(model_path, 'rb') as f:
-            return pickle.load(f)
-    return None
+        try:
+            with open(model_path, 'rb') as f:
+                return pickle.load(f)
+        except Exception as e:
+            # Fallback prints to console log if version mismatch occurs
+            print(f"Pre-trained model loading failed: {e}. Re-training model dynamically...")
+            
+    # Dynamic fallback training
+    try:
+        from sklearn.compose import ColumnTransformer
+        from sklearn.preprocessing import OneHotEncoder, StandardScaler
+        from sklearn.pipeline import Pipeline
+        from sklearn.ensemble import RandomForestRegressor
+        
+        if not os.path.exists(data_path):
+            return None
+            
+        df_temp = pd.read_csv(data_path)
+        X = df_temp.drop(columns=['Price_Lakhs'])
+        y = df_temp['Price_Lakhs']
+        
+        categorical_features = ['Locality']
+        numerical_features = ['Area_SqFt', 'BHK', 'Bathrooms', 'Property_Age_Years', 'Floor_Num', 'Total_Floors']
+        binary_features = ['Parking_Available', 'Swimming_Pool', 'Gym_Available', 'Lift_Available']
+        
+        preprocessor = ColumnTransformer(
+            transformers=[
+                ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features),
+                ('num', StandardScaler(), numerical_features),
+                ('bin', 'passthrough', binary_features)
+            ]
+        )
+        
+        model_rf = RandomForestRegressor(
+            n_estimators=150,
+            max_depth=15,
+            min_samples_split=5,
+            random_state=42,
+            n_jobs=-1
+        )
+        
+        pipeline = Pipeline(steps=[
+            ('preprocessor', preprocessor),
+            ('regressor', model_rf)
+        ])
+        
+        pipeline.fit(X, y)
+        return pipeline
+    except Exception as ex:
+        print(f"Error training model dynamically: {ex}")
+        return None
 
 @st.cache_data
 def load_data():
