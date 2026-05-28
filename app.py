@@ -226,7 +226,7 @@ with tab1:
                 template='plotly_white'
             )
             fig_price.update_layout(showlegend=False, height=400, margin=dict(l=0, r=0, t=10, b=10))
-            st.plotly_chart(fig_price, use_container_width=True)
+            st.plotly_chart(fig_price, height=400, width='stretch')
             
         with col2:
             st.markdown("### Locality Analysis: Price per Sq.Ft")
@@ -241,7 +241,7 @@ with tab1:
                 template='plotly_white'
             )
             fig_rate.update_layout(showlegend=False, height=400, margin=dict(l=0, r=0, t=10, b=10))
-            st.plotly_chart(fig_rate, use_container_width=True)
+            st.plotly_chart(fig_rate, height=400, width='stretch')
             
         st.markdown("<hr style='border:0.5px solid #eaeaea'>", unsafe_allow_html=True)
         
@@ -260,7 +260,7 @@ with tab1:
                 template='plotly_white'
             )
             fig_scatter.update_layout(height=400, margin=dict(l=0, r=0, t=10, b=10))
-            st.plotly_chart(fig_scatter, use_container_width=True)
+            st.plotly_chart(fig_scatter, height=400, width='stretch')
             
         with col4:
             st.markdown("### Factors Correlation Heatmap")
@@ -281,7 +281,7 @@ with tab1:
                 template='plotly_white'
             )
             fig_heat.update_layout(height=400, margin=dict(l=0, r=0, t=10, b=10))
-            st.plotly_chart(fig_heat, use_container_width=True)
+            st.plotly_chart(fig_heat, height=400, width='stretch')
             
         # Model Feature Importance
         st.markdown("<hr style='border:0.5px solid #eaeaea'>", unsafe_allow_html=True)
@@ -311,7 +311,7 @@ with tab1:
                 template='plotly_white'
             )
             fig_imp.update_layout(showlegend=False, height=350, margin=dict(l=0, r=0, t=10, b=10))
-            st.plotly_chart(fig_imp, use_container_width=True)
+            st.plotly_chart(fig_imp, height=350, width='stretch')
         else:
             st.info("Train the machine learning model first to view predictive features analysis.")
             
