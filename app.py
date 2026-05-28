@@ -114,6 +114,20 @@ current_dir = os.path.dirname(__file__)
 model_path = os.path.join(current_dir, 'best_model.pkl')
 data_path = os.path.join(current_dir, 'mumbai_house_data.csv')
 
+# Locality base rates reference
+localities_rates = {
+    'South Mumbai': 52000,
+    'Worli': 44000,
+    'Bandra West': 46000,
+    'Juhu': 41000,
+    'Andheri West': 25000,
+    'Powai': 22000,
+    'Chembur': 19000,
+    'Borivali West': 18000,
+    'Vashi (Navi Mumbai)': 15000,
+    'Thane West': 13000
+}
+
 # Load files
 @st.cache_resource
 def load_model():
@@ -321,7 +335,7 @@ with tab2:
             with c_left:
                 locality = st.selectbox(
                     "Locality / Area",
-                    options=sorted(list(localities.keys())),
+                    options=sorted(list(localities_rates.keys())),
                     index=2 # Defaults to Bandra West
                 )
                 
@@ -437,13 +451,6 @@ with tab2:
                 
                 # Explain predictions logically
                 factors = []
-                
-                # Locality base rates reference
-                localities_rates = {
-                    'South Mumbai': 52000, 'Worli': 44000, 'Bandra West': 46000, 'Juhu': 41000,
-                    'Andheri West': 25000, 'Powai': 22000, 'Chembur': 19000, 'Borivali West': 18000,
-                    'Vashi (Navi Mumbai)': 15000, 'Thane West': 13000
-                }
                 
                 base_rate = localities_rates.get(locality, 20000)
                 factors.append(f"📍 **Locality Premium**: `{locality}` commands a baseline rate of around **₹{base_rate:,.0f}/sq.ft**.")
