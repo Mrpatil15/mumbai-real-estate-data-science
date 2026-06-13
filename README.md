@@ -6,6 +6,13 @@ This directory contains a complete data science and machine learning project foc
 
 ```
 real-estate-analysis/
+```
+Wait, the repository root is `mumbai-real-estate-data-science`. When you clone this repository, you will get a folder with that name.
+
+## 📁 Project Directory Structure
+
+```
+mumbai-real-estate-data-science/
 ├── requirements.txt           ← Python dependency packages
 ├── data_generator.py          ← Generates synthetic Mumbai transaction records
 ├── mumbai_house_data.csv      ← Generated dataset (1600 records)
@@ -25,7 +32,7 @@ Ensure you have Python 3.10+ installed.
 ### Step 1 — Navigate to the directory
 Open a terminal and change your directory to this folder:
 ```bash
-cd real-estate-analysis
+cd mumbai-real-estate-data-science
 ```
 
 ### Step 2 — (Optional) Create a Virtual Environment
